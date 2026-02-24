@@ -1,0 +1,296 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1nj5k8p9q2r3"]
+
+[ext_resource type="Script" path="res://Scripts/IdentitySelectController.cs" id="1_identity_ctrl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_identity"]
+bg_color = Color(0.1, 0.15, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="IdentitySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_identity_ctrl")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.02, 0.02, 0.05, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 36
+text = "选择你的身份"
+horizontal_alignment = 1
+
+[node name="Identities" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -200.0
+offset_right = 500.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+# 探险家
+[node name="ExplorerCard" type="PanelContainer" parent="Identities"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_identity")
+
+[node name="ExplorerContent" type="VBoxContainer" parent="Identities/ExplorerCard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ExplorerIcon" type="Label" parent="Identities/ExplorerCard/ExplorerContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "🔭"
+horizontal_alignment = 1
+
+[node name="ExplorerName" type="Label" parent="Identities/ExplorerCard/ExplorerContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "探险家"
+horizontal_alignment = 1
+
+[node name="ExplorerDesc" type="Label" parent="Identities/ExplorerCard/ExplorerContent"]
+layout_mode = 2
+offset_top = 10.0
+offset_right = 220.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "追寻宇宙边缘的尽头"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ExplorerBonus" type="Label" parent="Identities/ExplorerCard/ExplorerContent"]
+layout_mode = 2
+offset_top = 60.0
+offset_right = 220.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0.3, 0.7, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "起始资金 +50% | 探索范围 +50%"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ExplorerButton" type="Button" parent="Identities/ExplorerCard/ExplorerContent"]
+layout_mode = 2
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "选择"
+
+# 考古学家
+[node name="ArchaeologistCard" type="PanelContainer" parent="Identities"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_identity")
+
+[node name="ArchaeologistContent" type="VBoxContainer" parent="Identities/ArchaeologistCard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ArchaeologistIcon" type="Label" parent="Identities/ArchaeologistCard/ArchaeologistContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.7, 0.3, 1)
+theme_override_font_sizes/font_size = 40
+text = "🏺"
+horizontal_alignment = 1
+
+[node name="ArchaeologistName" type="Label" parent="Identities/ArchaeologistCard/ArchaeologistContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "考古学家"
+horizontal_alignment = 1
+
+[node name="ArchaeologistDesc" type="Label" parent="Identities/ArchaeologistCard/ArchaeologistContent"]
+layout_mode = 2
+offset_top = 10.0
+offset_right = 220.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "追溯消失的超级文明"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ArchaeologistBonus" type="Label" parent="Identities/ArchaeologistCard/ArchaeologistContent"]
+layout_mode = 2
+offset_top = 60.0
+offset_right = 220.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0.3, 0.7, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "起始研究 +100 | 研究 +30%"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ArchaeologistButton" type="Button" parent="Identities/ArchaeologistCard/ArchaeologistContent"]
+layout_mode = 2
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "选择"
+
+# 科学家
+[node name="ScientistCard" type="PanelContainer" parent="Identities"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_identity")
+
+[node name="ScientistContent" type="VBoxContainer" parent="Identities/ScientistCard"]
+layout_mode = 2
+alignment = 1
+
+[node name="ScientistIcon" type="Label" parent="Identities/ScientistCard/ScientistContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.5, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "🔬"
+horizontal_alignment = 1
+
+[node name="ScientistName" type="Label" parent="Identities/ScientistCard/ScientistContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "科学家"
+horizontal_alignment = 1
+
+[node name="ScientistDesc" type="Label" parent="Identities/ScientistCard/ScientistContent"]
+layout_mode = 2
+offset_top = 10.0
+offset_right = 220.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "解开宇宙终极真理"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScientistBonus" type="Label" parent="Identities/ScientistCard/ScientistContent"]
+layout_mode = 2
+offset_top = 60.0
+offset_right = 220.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0.3, 0.7, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "起始研究 +200 | 研究 +50%"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScientistButton" type="Button" parent="Identities/ScientistCard/ScientistContent"]
+layout_mode = 2
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "选择"
+
+# 军人
+[node name="SoldierCard" type="PanelContainer" parent="Identities"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_identity")
+
+[node name="SoldierContent" type="VBoxContainer" parent="Identities/SoldierCard"]
+layout_mode = 2
+alignment = 1
+
+[node name="SoldierIcon" type="Label" parent="Identities/SoldierCard/SoldierContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 40
+text = "⚔️"
+horizontal_alignment = 1
+
+[node name="SoldierName" type="Label" parent="Identities/SoldierCard/SoldierContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 20
+text = "军人"
+horizontal_alignment = 1
+
+[node name="SoldierDesc" type="Label" parent="Identities/SoldierCard/SoldierContent"]
+layout_mode = 2
+offset_top = 10.0
+offset_right = 220.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "在混乱中建立秩序"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SoldierBonus" type="Label" parent="Identities/SoldierCard/SoldierContent"]
+layout_mode = 2
+offset_top = 60.0
+offset_right = 220.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0.3, 0.7, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "战斗力 +50%"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SoldierButton" type="Button" parent="Identities/SoldierCard/SoldierContent"]
+layout_mode = 2
+offset_top = 100.0
+offset_right = 220.0
+offset_bottom = 135.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "选择"
+
+# 返回按钮
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 55.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "← 返回"

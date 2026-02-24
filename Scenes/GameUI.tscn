@@ -1,0 +1,234 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7v3kx2m5n8p4"]
+
+[ext_resource type="Script" path="res://Scripts/GameUIController.cs" id="1_game_ui_ctrl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.15, 0.2, 0.35, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.8, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_identity"]
+bg_color = Color(0.1, 0.15, 0.25, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.4, 0.7, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_game_ui_ctrl")
+
+# ===== 顶部状态栏 =====
+[node name="TopBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="TurnLabel" type="Label" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "第 1 回合"
+
+[node name="Resources" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="CreditsLabel" type="Label" parent="TopBar/Resources"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "💰 1000"
+
+[node name="FuelLabel" type="Label" parent="TopBar/Resources"]
+layout_mode = 2
+offset_left = 100.0
+offset_right = 180.0
+theme_override_colors/font_color = Color(0.4, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "⛽ 50"
+
+[node name="MineralsLabel" type="Label" parent="TopBar/Resources"]
+layout_mode = 2
+offset_left = 190.0
+offset_right = 280.0
+theme_override_colors/font_color = Color(0.5, 0.7, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "💎 30"
+
+[node name="ResearchLabel" type="Label" parent="TopBar/Resources"]
+layout_mode = 2
+offset_left = 290.0
+offset_right = 390.0
+theme_override_colors/font_color = Color(0.8, 0.5, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "🔬 0"
+
+# ===== 左侧面板 - 舰队 =====
+[node name="FleetPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = 250.0
+offset_bottom = 350.0
+
+[node name="FleetList" type="VBoxContainer" parent="FleetPanel"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="FleetTitle" type="Label" parent="FleetPanel/FleetList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.6, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "🚢 舰队"
+
+[node name="FleetContent" type="Label" parent="FleetPanel/FleetList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "侦察舰 x1"
+
+# ===== 中间 - 星图 =====
+[node name="StarMap" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 60.0
+offset_bottom = -60.0
+
+[node name="MapTitle" type="Label" parent="StarMap"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.4, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 24
+text = "🌌 星图"
+horizontal_alignment = 1
+
+[node name="ZoneInfo" type="PanelContainer" parent="StarMap"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InfoContent" type="VBoxContainer" parent="StarMap/ZoneInfo"]
+layout_mode = 2
+alignment = 1
+
+[node name="ZoneName" type="Label" parent="StarMap/ZoneInfo/InfoContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "地球圈"
+horizontal_alignment = 1
+
+[node name="ZoneType" type="Label" parent="StarMap/ZoneInfo/InfoContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
+text = "超光速界区 (FTL)"
+horizontal_alignment = 1
+
+[node name="ZoneDesc" type="Label" parent="StarMap/ZoneInfo/InfoContent"]
+layout_mode = 2
+offset_top = 10.0
+offset_right = 380.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "人类的母星所在的繁荣界区"
+horizontal_alignment = 1
+
+[node name="ZoneStats" type="Label" parent="StarMap/ZoneInfo/InfoContent"]
+layout_mode = 2
+offset_top = 70.0
+offset_right = 380.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+text = "科技等级: 8 | 威胁: 0"
+horizontal_alignment = 1
+
+[node name="TravelButton" type="Button" parent="StarMap/ZoneInfo/InfoContent"]
+layout_mode = 2
+offset_top = 140.0
+offset_right = 200.0
+offset_bottom = 175.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+text = "探索/前往"
+
+# ===== 底部操作栏 =====
+[node name="BottomBar" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="ExploreButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 18
+text = "🔭 探索"
+
+[node name="BuildButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 18
+text = "🏗️ 建造"
+
+[node name="FleetButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 18
+text = "🚢 舰队"
+
+[node name="EndTurnButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_font_sizes/font_size = 18
+text = "⏭️ 结束回合"
