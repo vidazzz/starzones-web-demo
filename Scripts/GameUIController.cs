@@ -10,16 +10,14 @@ public partial class GameUIController : Control
         GetNode<Button>("BottomBar/FleetButton").Pressed += OnFleetPressed;
         GetNode<Button>("BottomBar/EndTurnButton").Pressed += OnEndTurnPressed;
         
-        // 星图按钮
-        GetNode<Button>("StarMap/ZoneInfo/InfoContent/TravelButton").Pressed += OnTravelPressed;
+        // 中间面板按钮
+        GetNode<Button>("CenterPanel/ZoneInfo/InfoContent/TravelButton").Pressed += OnTravelPressed;
     }
     
     private void OnExplorePressed()
     {
-        // 随机发现一个新界区
         var gm = GameManager.Instance;
         
-        // 找到未发现的界区
         var undiscovered = gm.Zones.FindAll(z => !z.Discovered);
         
         if (undiscovered.Count > 0)
@@ -27,7 +25,6 @@ public partial class GameUIController : Control
             var random = new Random();
             var target = undiscovered[random.Next(undiscovered.Count)];
             
-            // 消耗燃料探索
             if (gm.Fuel >= 10)
             {
                 gm.Fuel -= 10;
@@ -52,10 +49,8 @@ public partial class GameUIController : Control
     
     private void OnTravelPressed()
     {
-        // 显示可选的界区列表（简化版：随机探索）
         var gm = GameManager.Instance;
         
-        // 随机前往一个未探索的界区
         var undiscovered = gm.Zones.FindAll(z => !z.Discovered);
         
         if (undiscovered.Count > 0)
