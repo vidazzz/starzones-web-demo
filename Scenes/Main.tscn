@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://main_scene"]
 
-[ext_resource type="Script" path="res://Scripts/SceneManager.cs" id="1_scene_mgr"]
+[ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="1_scene_mgr"]
 [ext_resource type="PackedScene" uid="uid://b8xkmq1cj2m3n" path="res://Scenes/MainMenu.tscn" id="2_main_menu"]
 [ext_resource type="PackedScene" uid="uid://d1nj5k8p9q2r3" path="res://Scenes/IdentitySelect.tscn" id="3_identity"]
 [ext_resource type="PackedScene" uid="uid://c7v3kx2m5n8p4" path="res://Scenes/GameUI.tscn" id="4_game_ui"]

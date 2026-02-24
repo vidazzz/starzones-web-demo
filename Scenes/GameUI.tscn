@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7v3kx2m5n8p4"]
 
-[ext_resource type="Script" path="res://Scripts/GameUIController.cs" id="1_game_ui_ctrl"]
+[ext_resource type="Script" path="res://Scripts/GameUIController.gd" id="1_game_ui_ctrl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
 bg_color = Color(0.15, 0.2, 0.35, 1)
@@ -35,7 +35,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_game_ui_ctrl")
 
-# ===== 顶部状态栏 =====
+
 [node name="TopBar" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 10
@@ -91,7 +91,7 @@ theme_override_colors/font_color = Color(0.8, 0.5, 1, 1)
 theme_override_font_sizes/font_size = 16
 text = "🔬 0"
 
-# ===== 中间 - 星图/信息 =====
+
 [node name="CenterPanel" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -155,7 +155,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_button")
 theme_override_font_sizes/font_size = 16
 text = "🔭 探索/前往"
 
-# ===== 底部操作栏 =====
+
 [node name="BottomBar" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 12
