@@ -1,17 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://main_scene"]
+[gd_scene format=3 uid="uid://bdw76eb8f557r"]
 
-[ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="1_scene_mgr"]
 [ext_resource type="PackedScene" uid="uid://b8xkmq1cj2m3n" path="res://Scenes/MainMenu.tscn" id="2_main_menu"]
-[ext_resource type="PackedScene" uid="uid://d1nj5k8p9q2r3" path="res://Scenes/IdentitySelect.tscn" id="3_identity"]
+[ext_resource type="PackedScene" uid="uid://d1nj5k8qaq2r3" path="res://Scenes/IdentitySelect.tscn" id="3_identity"]
 [ext_resource type="PackedScene" uid="uid://c7v3kx2m5n8p4" path="res://Scenes/GameUI.tscn" id="4_game_ui"]
+[ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="5_scene_mgr"]
 
-[node name="Main" type="Node"]
-script = ExtResource("1_scene_mgr")
+[node name="Main" type="Node" unique_id=1745145617]
 
-[node name="MainMenu" parent="." instance=ExtResource("2_main_menu")]
+[node name="SceneManager" type="Node" parent="."]
+script = ExtResource("5_scene_mgr")
 
-[node name="IdentitySelect" parent="." instance=ExtResource("3_identity")]
+[node name="MainMenu" parent="." unique_id=49890190 instance=ExtResource("2_main_menu")]
+
+[node name="IdentitySelect" parent="." unique_id=435848972 instance=ExtResource("3_identity")]
 visible = false
 
-[node name="GameUI" parent="." instance=ExtResource("4_game_ui")]
+[node name="GameUI" parent="." unique_id=1370418193 instance=ExtResource("4_game_ui")]
 visible = false

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://hex_tile"]
+
+[ext_resource type="Script" path="res://Scripts/HexTile.gd" id="1_hex_tile"]
+
+[node name="HexTile" type="Area2D"]
+input_pickable = true
+script = ExtResource("1_hex_tile")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

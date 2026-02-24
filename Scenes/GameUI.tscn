@@ -34,7 +34,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_game_ui_ctrl")
-
+mouse_filter = 0
 
 [node name="TopBar" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -91,7 +91,6 @@ theme_override_colors/font_color = Color(0.8, 0.5, 1, 1)
 theme_override_font_sizes/font_size = 16
 text = "🔬 0"
 
-
 [node name="CenterPanel" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -99,8 +98,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 60.0
 offset_bottom = -70.0
+mouse_filter = 2
+
+[node name="HexMapContainer" type="Node2D" parent="."]
+position = Vector2(640, 270)
 
 [node name="ZoneInfo" type="PanelContainer" parent="CenterPanel"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -113,6 +117,7 @@ offset_right = 180.0
 offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="InfoContent" type="VBoxContainer" parent="CenterPanel/ZoneInfo"]
 layout_mode = 2
@@ -153,8 +158,7 @@ layout_mode = 2
 offset_top = 10.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
 theme_override_font_sizes/font_size = 16
-text = "🔭 探索/前往"
-
+text = "确认前往"
 
 [node name="BottomBar" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -166,13 +170,6 @@ offset_top = -60.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 5
-
-[node name="ExploreButton" type="Button" parent="BottomBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_font_sizes/font_size = 16
-text = "🔭"
 
 [node name="BuildButton" type="Button" parent="BottomBar"]
 layout_mode = 2
