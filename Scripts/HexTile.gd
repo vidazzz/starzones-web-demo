@@ -18,10 +18,18 @@ var is_hovered: bool = false
 @onready var collision_polygon = $CollisionPolygon2D
 
 # 颜色定义
+# 三级界区颜色（等高线风格）
+# 爬行界（低地）: 棕绿色系
+# 飞跃界（中地）: 蓝紫色系
+# 超限界（高地）: 金白色系
+const COLOR_CRAWLING = Color(0.35, 0.45, 0.3, 0.95)    # 爬行界 - 棕绿
+const COLOR_BREAKTHROUGH = Color(0.3, 0.35, 0.6, 0.95) # 飞跃界 - 蓝紫
+const COLOR_TRANSCENDENT = Color(0.7, 0.6, 0.3, 0.95)  # 超限界 - 金色
+
 const COLOR_HIDDEN = Color(0.15, 0.15, 0.25, 0.6)     # 未探索 - 半透明暗色
-const COLOR_REVEALED = Color(0.2, 0.35, 0.55, 0.95)    # 已探索 - 蓝色
+const COLOR_REVEALED = Color(0.2, 0.35, 0.55, 0.95)    # 已探索 - 蓝色（后备）
 const COLOR_CURRENT = Color(0.3, 0.8, 0.4, 1.0)        # 当前所在 - 绿色
-const COLOR_HOVER = Color(0.4, 0.5, 0.7, 1.0)          # 悬停 - 高亮
+const COLOR_HOVER = Color(0.5, 0.6, 0.8, 1.0)          # 悬停 - 高亮
 
 func _ready():
 	_generate_hexagon()
@@ -69,8 +77,14 @@ func _update_visual_state():
 		polygon.color = COLOR_CURRENT
 	elif is_hovered and is_revealed:
 		polygon.color = COLOR_HOVER
-	elif is_revealed:
-		polygon.color = COLOR_REVEALED
+	elif is_revealed and zone_data:
+		# 根据界区层级显示不同颜色
+		var tier = zone_data.tier if "tier" in zone_data else 0
+		match tier:
+			0: polygon.color = COLOR_CRAWLING   # 爬行界
+			1: polygon.color = COLOR_BREAKTHROUGH  # 飞跃界
+			2: polygon.color = COLOR_TRANSCENDENT   # 超限界
+			_: polygon.color = COLOR_REVEALED
 	else:
 		polygon.color = COLOR_HIDDEN
 

@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7v3kx2m5n8p4"]
+[gd_scene format=3 uid="uid://c7v3kx2m5n8p4"]
 
-[ext_resource type="Script" path="res://Scripts/GameUIController.gd" id="1_game_ui_ctrl"]
+[ext_resource type="Script" uid="uid://dqvfqtxaeo16v" path="res://Scripts/GameUIController.gd" id="1_game_ui_ctrl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
 bg_color = Color(0.15, 0.2, 0.35, 1)
@@ -14,19 +14,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_identity"]
-bg_color = Color(0.1, 0.15, 0.25, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.2, 0.4, 0.7, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[node name="GameUI" type="Control"]
+[node name="GameUI" type="Control" unique_id=1066300017]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,20 +22,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_game_ui_ctrl")
-mouse_filter = 0
 
-[node name="TopBar" type="PanelContainer" parent="."]
+[node name="TopBar" type="PanelContainer" parent="." unique_id=1309733113]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 60.0
 grow_horizontal = 2
 
-[node name="TopBarContent" type="HBoxContainer" parent="TopBar"]
+[node name="TopBarContent" type="HBoxContainer" parent="TopBar" unique_id=1804607855]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TurnLabel" type="Label" parent="TopBar/TopBarContent"]
+[node name="TurnLabel" type="Label" parent="TopBar/TopBarContent" unique_id=1989339323]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -55,55 +42,48 @@ theme_override_colors/font_color = Color(0.7, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 18
 text = "第 1 回合"
 
-[node name="Resources" type="HBoxContainer" parent="TopBar/TopBarContent"]
+[node name="Resources" type="HBoxContainer" parent="TopBar/TopBarContent" unique_id=1999949472]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
 alignment = 2
 
-[node name="CreditsLabel" type="Label" parent="TopBar/TopBarContent/Resources"]
+[node name="CreditsLabel" type="Label" parent="TopBar/TopBarContent/Resources" unique_id=1168596111]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 16
 text = "💰 1000"
 
-[node name="FuelLabel" type="Label" parent="TopBar/TopBarContent/Resources"]
+[node name="FuelLabel" type="Label" parent="TopBar/TopBarContent/Resources" unique_id=610767569]
 layout_mode = 2
-offset_left = 80.0
-offset_right = 150.0
 theme_override_colors/font_color = Color(0.4, 0.9, 0.5, 1)
 theme_override_font_sizes/font_size = 16
 text = "⛽ 50"
 
-[node name="MineralsLabel" type="Label" parent="TopBar/TopBarContent/Resources"]
+[node name="MineralsLabel" type="Label" parent="TopBar/TopBarContent/Resources" unique_id=1764959290]
 layout_mode = 2
-offset_left = 160.0
-offset_right = 230.0
 theme_override_colors/font_color = Color(0.5, 0.7, 0.9, 1)
 theme_override_font_sizes/font_size = 16
 text = "💎 30"
 
-[node name="ResearchLabel" type="Label" parent="TopBar/TopBarContent/Resources"]
+[node name="ResearchLabel" type="Label" parent="TopBar/TopBarContent/Resources" unique_id=93540437]
 layout_mode = 2
-offset_left = 240.0
-offset_right = 320.0
 theme_override_colors/font_color = Color(0.8, 0.5, 1, 1)
 theme_override_font_sizes/font_size = 16
 text = "🔬 0"
 
-[node name="CenterPanel" type="Control" parent="."]
+[node name="CenterPanel" type="Control" parent="." unique_id=371535599]
+z_index = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 60.0
 offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
-[node name="HexMapContainer" type="Node2D" parent="."]
-position = Vector2(640, 270)
-
-[node name="ZoneInfo" type="PanelContainer" parent="CenterPanel"]
+[node name="ZoneInfo" type="PanelContainer" parent="CenterPanel" unique_id=1995545785]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -119,26 +99,26 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="InfoContent" type="VBoxContainer" parent="CenterPanel/ZoneInfo"]
+[node name="InfoContent" type="VBoxContainer" parent="CenterPanel/ZoneInfo" unique_id=1424604156]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 8
+alignment = 1
 
-[node name="ZoneName" type="Label" parent="CenterPanel/ZoneInfo/InfoContent"]
+[node name="ZoneName" type="Label" parent="CenterPanel/ZoneInfo/InfoContent" unique_id=912769298]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "地球圈"
 horizontal_alignment = 1
 
-[node name="ZoneType" type="Label" parent="CenterPanel/ZoneInfo/InfoContent"]
+[node name="ZoneType" type="Label" parent="CenterPanel/ZoneInfo/InfoContent" unique_id=1608379854]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.6, 0.7, 1)
 theme_override_font_sizes/font_size = 14
 text = "超光速界区 (FTL)"
 horizontal_alignment = 1
 
-[node name="ZoneDesc" type="Label" parent="CenterPanel/ZoneInfo/InfoContent"]
+[node name="ZoneDesc" type="Label" parent="CenterPanel/ZoneInfo/InfoContent" unique_id=653149225]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 12
@@ -146,21 +126,23 @@ text = "人类的母星所在的繁荣界区"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="ZoneStats" type="Label" parent="CenterPanel/ZoneInfo/InfoContent"]
+[node name="ZoneStats" type="Label" parent="CenterPanel/ZoneInfo/InfoContent" unique_id=1726099163]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
 theme_override_font_sizes/font_size = 12
 text = "科技等级: 8 | 威胁: 0"
 horizontal_alignment = 1
 
-[node name="TravelButton" type="Button" parent="CenterPanel/ZoneInfo/InfoContent"]
+[node name="TravelButton" type="Button" parent="CenterPanel/ZoneInfo/InfoContent" unique_id=1117250855]
 layout_mode = 2
-offset_top = 10.0
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_font_sizes/font_size = 16
 text = "确认前往"
 
-[node name="BottomBar" type="HBoxContainer" parent="."]
+[node name="HexMapContainer" type="Node2D" parent="." unique_id=328149669]
+position = Vector2(640, 270)
+
+[node name="BottomBar" type="HBoxContainer" parent="." unique_id=1857798812]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -171,23 +153,23 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 5
 
-[node name="BuildButton" type="Button" parent="BottomBar"]
+[node name="BuildButton" type="Button" parent="BottomBar" unique_id=608106065]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_font_sizes/font_size = 16
 text = "🏗️"
 
-[node name="FleetButton" type="Button" parent="BottomBar"]
+[node name="FleetButton" type="Button" parent="BottomBar" unique_id=1734674314]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_font_sizes/font_size = 16
 text = "🚢"
 
-[node name="EndTurnButton" type="Button" parent="BottomBar"]
+[node name="EndTurnButton" type="Button" parent="BottomBar" unique_id=126905412]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
-theme_override_font_sizes/font_size = 16
 text = "⏭️"

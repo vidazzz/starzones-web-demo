@@ -7,18 +7,94 @@ var hex_map: HexMap = null
 var pending_zone = null  # 待确认移动的区域
 var pending_fuel_cost = 0  # 待确认的燃料消耗
 
+# 拖动相关变量
+var is_dragging: bool = false
+var drag_start_pos: Vector2 = Vector2.ZERO
+var hex_map_start_pos: Vector2 = Vector2.ZERO
+
+# 拖动阈值（像素）
+const DRAG_THRESHOLD = 10.0
+
 func _ready():
 	# 延迟一帧后再连接信号
 	await get_tree().process_frame
 	_connect_signals()
 
 func _input(event):
+	# 处理地图拖动（鼠标和触摸）
+	var zone_info = get_node_or_null("CenterPanel/ZoneInfo")
+	var panel_visible = zone_info and zone_info.visible
+
+	# 触摸事件处理
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			# 准备拖动（但不立即开始）
+			if not panel_visible:
+				drag_start_pos = event.position
+				var container = get_node_or_null("HexMapContainer")
+				if container:
+					hex_map_start_pos = container.position
+		else:
+			# 结束拖动
+			is_dragging = false
+
+	elif event is InputEventScreenDrag:
+		# 检查是否超过拖动阈值
+		var diff = (event.position - drag_start_pos).length()
+		if diff > DRAG_THRESHOLD:
+			is_dragging = true
+		# 拖动地图
+		var container = get_node_or_null("HexMapContainer")
+		if container:
+			var move_diff = event.position - drag_start_pos
+			container.position = hex_map_start_pos + move_diff
+		return
+
+	# 鼠标事件处理
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				# 准备拖动（但不立即开始）
+				if not panel_visible:
+					drag_start_pos = event.position
+					var container = get_node_or_null("HexMapContainer")
+					if container:
+						hex_map_start_pos = container.position
+			else:
+				# 结束拖动
+				is_dragging = false
+
+	elif event is InputEventMouseMotion and not event.button_mask == 0:
+		# 检查是否超过拖动阈值
+		var diff = (event.position - drag_start_pos).length()
+		if diff > DRAG_THRESHOLD:
+			is_dragging = true
+			# 拖动地图
+			var container = get_node_or_null("HexMapContainer")
+			if container:
+				var move_diff = event.position - drag_start_pos
+				container.position = hex_map_start_pos + move_diff
+
+	# 如果正在拖动，不处理点击
+	if is_dragging:
+		return
+
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		# 如果区域信息面板正在显示，禁止点击地块
-		var zone_info = get_node_or_null("CenterPanel/ZoneInfo")
-		if zone_info and zone_info.visible:
+		# 如果区域信息面板正在显示
+		if panel_visible:
+			# 检查点击是否在面板内
+			var panel_rect = zone_info.get_global_rect()
+			var mouse_pos = get_global_mouse_position()
+
+			# 如果点击在面板外，关闭面板
+			if not panel_rect.has_point(mouse_pos):
+				_close_zone_panel()
+				return
+
+			# 点击在面板内，不处理地块点击
 			return
 
+		# 面板未显示，检查地块点击
 		if hex_map:
 			var mouse_pos = get_global_mouse_position()
 			# 检查点击了哪个地块
@@ -27,6 +103,14 @@ func _input(event):
 				if tile.is_point_inside(mouse_pos):
 					hex_map._on_hex_clicked(tile.hex_coords)
 					break
+
+func _close_zone_panel():
+	# 关闭面板并清除待确认状态
+	var zone_info = get_node_or_null("CenterPanel/ZoneInfo")
+	if zone_info:
+		zone_info.visible = false
+	pending_zone = null
+	pending_fuel_cost = 0
 
 func setup_hex_map_internal():
 	var gm = get_tree().get_first_node_in_group("game_manager")
@@ -115,6 +199,11 @@ func _on_travel_pressed():
 
 	# 如果有待确认的区域，执行移动
 	if pending_zone:
+		# 检查燃料是否足够
+		if gm.fuel < pending_fuel_cost:
+			print("燃料不足！")
+			return
+
 		# 未探索区域需要先消耗燃料探索
 		if not pending_zone.discovered:
 			gm.fuel -= pending_fuel_cost

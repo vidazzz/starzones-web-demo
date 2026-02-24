@@ -6,8 +6,8 @@ class_name HexMap
 
 signal move_requested(zone_data, fuel_cost)
 
-@export var hex_size: float = 50.0
-@export var map_radius: int = 2  # 地图半径
+@export var hex_size: float = 35.0
+@export var map_radius: int = 12  # 地图半径 (12 ≈ 469 地块，满足300+要求)
 
 var hex_tiles: Dictionary = {}  # hex_coords hash -> HexTile
 
@@ -70,24 +70,106 @@ func generate_map(zones: Array):
 	# 1. 生成六边形网格坐标
 	var hex_coords_list = _generate_spiral_hexagons(map_radius)
 
-	# 2. 确保有足够的格子
-	if hex_coords_list.size() < zones.size():
-		var new_radius = map_radius + 1
-		while hex_coords_list.size() < zones.size():
-			hex_coords_list = _generate_spiral_hexagons(new_radius)
-			new_radius += 1
+	# 2. 确保有足够的格子（至少300个）
+	while hex_coords_list.size() < 300:
+		map_radius += 1
+		hex_coords_list = _generate_spiral_hexagons(map_radius)
 
-	# 3. 将 ZoneData 分配到各个坐标
+	# 3. 生成等高线高度图（使用同心圆+噪声）
+	var height_map = _generate_contour_map(hex_coords_list)
+
+	# 4. 将 ZoneData 分配到各个坐标
 	var zone_index = 0
 	for coords in hex_coords_list:
 		if zone_index >= zones.size():
 			break
 		var zone = zones[zone_index]
+		# 设置高度和界区层级
+		zone.height = height_map[coords.hash()]
+		zone.tier = _get_tier_from_height(zone.height)
+		zone.tier_name = _get_tier_name(zone.tier)
+		zone.description = _generate_tier_description(zone)
 		_create_hex_tile(coords, zone)
 		zone_index += 1
 
-	# 4. 更新初始状态
+	# 5. 更新初始状态
 	_update_tile_states()
+
+# 生成等高线地图 - 使用同心圆 + 噪声
+func _generate_contour_map(hex_coords_list: Array) -> Dictionary:
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+
+	var height_map = {}
+	var center = HexCoord.new(0, 0)
+
+	# 找出最大距离
+	var max_dist = 0.0
+	for coords in hex_coords_list:
+		var dist = hex_distance(center, coords)
+		if dist > max_dist:
+			max_dist = dist
+
+	# 为每个坐标生成高度
+	for coords in hex_coords_list:
+		var dist = hex_distance(center, coords)
+		var normalized_dist = dist / max_dist if max_dist > 0 else 0.0
+
+		# 基础高度：中心低，边缘高（同心圆）
+		var base_height = normalized_dist
+
+		# 添加一些随机噪声变化
+		var noise = rng.randf_range(-0.15, 0.15)
+
+		# 限制高度在 0.0 - 1.0 范围内
+		var height = clampf(base_height + noise, 0.0, 1.0)
+
+		height_map[coords.hash()] = height
+
+	return height_map
+
+# 计算两个六边形之间的距离
+func hex_distance(a, b) -> float:
+	var a_s = -a.q - a.r
+	var b_s = -b.q - b.r
+	return (abs(a.q - b.q) + abs(a.r - b.r) + abs(a_s - b_s)) / 2.0
+
+# 根据高度确定界区层级
+func _get_tier_from_height(height: float) -> int:
+	if height < 0.33:
+		return 0  # 爬行界
+	elif height < 0.66:
+		return 1  # 飞跃界
+	else:
+		return 2  # 超限界
+
+func _get_tier_name(tier: int) -> String:
+	match tier:
+		0: return "爬行界"
+		1: return "飞跃界"
+		2: return "超限界"
+		_: return "未知界区"
+
+func _generate_tier_description(zone) -> String:
+	var tier_desc = ""
+	match zone.tier:
+		0:  # 爬行界
+			tier_desc = "低地爬行界区，技术落后，光速限制严格。"
+			zone.speed_limit = 0.5
+			zone.can_ftl = false
+			zone.can_warp = false
+		1:  # 飞跃界
+			tier_desc = "中高地飞跃界区，可以进行有限的超光速航行。"
+			zone.speed_limit = 5.0
+			zone.can_ftl = true
+			zone.can_warp = false
+		2:  # 超限界
+			tier_desc = "高地超限界区，科技发达，可进行超光速航行和空间跳跃。"
+			zone.speed_limit = 10.0
+			zone.can_ftl = true
+			zone.can_warp = true
+
+	return tier_desc + " 科技等级: " + str(zone.tech_level) + " | 威胁: " + str(zone.threat_level)
 
 # 生成螺旋六边形网格（从中心向外）
 func _generate_spiral_hexagons(radius: int) -> Array:
@@ -163,18 +245,22 @@ func _on_hex_clicked(coords):
 		return
 
 	var target_zone = tile.zone_data
-	var fuel_cost = 10 if target_zone.type == 0 else 20
 
-	# 检查燃料是否足够（探索+移动需要相同的燃料）
-	if gm.fuel < fuel_cost:
-		print("燃料不足，无法前往！")
-		return
+	# 根据离开界区的类型决定燃料消耗
+	# 爬行界：20, 飞跃界：10, 超限界：5
+	var current_tier = 0
+	if gm and gm.current_zone and "tier" in gm.current_zone:
+		current_tier = gm.current_zone.tier
+
+	var fuel_cost = 20
+	match current_tier:
+		0: fuel_cost = 20  # 爬行界
+		1: fuel_cost = 10  # 飞跃界
+		2: fuel_cost = 5   # 超限界
 
 	# 发出移动请求信号，显示确认面板
+	# 燃料扣除由 GameUIController 在用户确认后处理
 	move_requested.emit(target_zone, fuel_cost)
-	if gm.travel_to_zone(target_zone):
-		# 更新地图状态（显示新位置等）
-		_update_tile_states()
 
 # 更新所有瓦片状态
 func _update_tile_states():

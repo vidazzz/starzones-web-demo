@@ -18,7 +18,7 @@ var zones: Array = []
 var current_zone: Object
 
 var discovered_zone_count: int = 1
-var total_zones: int = 20
+var total_zones: int = 350  # 300+ 地块
 var story_fragments: Array = []
 
 enum GamePhase { MENU, IDENTITY_SELECT, PLAYING, PAUSED, GAME_OVER }
@@ -80,21 +80,27 @@ func explore_zone(zone):
 	print("Discovered new zone: ", zone.name)
 
 func travel_to_zone(target_zone):
-	if not target_zone.discovered:
-		explore_zone(target_zone)
-	
-	var fuel_cost = 10
-	if target_zone.type == 1:  # SUB_LIGHT
-		fuel_cost = 20
-	
+	# 根据离开界区的类型决定燃料消耗
+	# 爬行界：20, 飞跃界：10, 超限界：5
+	var current_tier = current_zone.tier if "tier" in current_zone else 0
+	var fuel_cost = 20
+	match current_tier:
+		0: fuel_cost = 20  # 爬行界
+		1: fuel_cost = 10  # 飞跃界
+		2: fuel_cost = 5   # 超限界
+
 	if fuel < fuel_cost:
 		print("Not enough fuel!")
 		return false
-	
+
+	# 检查燃料后再探索
+	if not target_zone.discovered:
+		explore_zone(target_zone)
+
 	fuel -= fuel_cost
 	current_zone = target_zone
-	
-	print("Traveled to ", target_zone.name)
+
+	print("Traveled to ", target_zone.name, " (cost: ", fuel_cost, " fuel)")
 	return true
 
 func purchase_ship(ship_type: int):
