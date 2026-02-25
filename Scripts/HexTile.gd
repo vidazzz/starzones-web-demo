@@ -36,6 +36,11 @@ func _ready():
 	_generate_collision()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	input_event.connect(_on_input_event)
+
+func _on_input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		hex_clicked.emit(hex_coords)
 
 func setup(coords, zone):
 	hex_coords = coords
